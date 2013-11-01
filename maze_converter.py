@@ -59,12 +59,12 @@ def main(argv):
         x2 = (int(line.attrib['x2']) / 16)
         y2 = (int(line.attrib['y2']) / 16)
         #now that we have the coordinates we have to analyze what is happening
-        #if both the x values are the same we are drawing a horizontal line
+        #if both the x values are the same we are drawing a vertical line
         #the length then has to be the y2 - y1
         if x1 == x2:
             style = 'vertical'
             length = y2 - y1
-        #if both of the y values are the same it is vertical
+        #if both of the y values are the same it is horizontal
         #and the lenght is x2 - x1
         else:
             style = 'horizontal'
