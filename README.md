@@ -4,7 +4,9 @@ Simple python script that is able to convert a .svg generated from www.mazegener
 
 Usage
 ==========
-python maze_converter.py -i <inputfile> -o <outputfile>  
+```
+python maze_converter.py -i <inputfile> -o <outputfile>
+```
 
 License
 ==========
