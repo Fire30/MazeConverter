@@ -48,16 +48,21 @@ def main(argv):
     #Each block in the .svg is 16 pixels wide
     #so if we divivde each attribute by 16...
     #we should get the size of the map
-    default_size.set('height',"%s" % (int(doc.attrib['height'])/16))
-    default_size.set('width','%s' % (int(doc.attrib['width'])/16))
+    default_height = int(doc.attrib['height'])/16
+    default_width = int(doc.attrib['width'])/16
+    default_size.set('height',"%s" % default_height)
+    default_size.set('width','%s' % default_width)
     #in the g tag there are a whole lot of line elements
     for line in doc.findall('{http://www.w3.org/2000/svg}g/*'):
         #each line has an x1,x2,y1,y2 attribute
         #we can calculate its coordinate on the jkarel map by dividing by 16
+        #well almost...
+        #Both formats have a different defintion of the origin
+        #So we need to convert the y values so they can be usable
         x1 = (int(line.attrib['x1']) / 16)
-        y1 = (int(line.attrib['y1']) / 16)
+        y1 = default_height - (int(line.attrib['y2']) / 16)
         x2 = (int(line.attrib['x2']) / 16)
-        y2 = (int(line.attrib['y2']) / 16)
+        y2 = default_height -(int(line.attrib['y1']) / 16)
         #now that we have the coordinates we have to analyze what is happening
         #if both the x values are the same we are drawing a vertical line
         #the length then has to be the y2 - y1
