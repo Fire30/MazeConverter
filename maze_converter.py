@@ -97,9 +97,19 @@ def main(argv):
             #vertical or horizontal
             wall.set('style',style)
             length -= 1
+        if style == 'horizontal' and (y1 == 0 or y1 == default_height):
+            if x2 - x1 < default_width and x2 + 1 < default_width:
+               beeper = ET.SubElement(objects, "beeper")
+               beeper.set('x','%s' % (x2 + 1))
+               beeper.set('y','%s' % (y1))
+        elif style == 'vertical' and (x1 == 0 or x1 == default_height):
+            if y2 - y1 < default_height and y2 + 1 < height_width:
+               beeper = ET.SubElement(objects, "beeper")
+               beeper.set('x','%s' % (x1))
+               beeper.set('y','%s' % (y2 + 1))
     #now we prettify the finished .map and write it to disc
     root = ET.ElementTree(jkarel_root).getroot()
-    indent(tree)
+    indent(root)
     tree = ET.ElementTree(root)
     tree.write(outputfile)
     #all done
