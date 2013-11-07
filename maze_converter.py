@@ -97,11 +97,28 @@ def main(argv):
             #vertical or horizontal
             wall.set('style',style)
             length -= 1
-    #now we get the finished .map and write it to disc
-    tree = ET.ElementTree(jkarel_root)
+    #now we prettify the finished .map and write it to disc
+    root = ET.ElementTree(jkarel_root).getroot()
+    indent(tree)
+    tree = ET.ElementTree(root)
     tree.write(outputfile)
     #all done
     print 'Successfully converted .svg into .map file'
+    
+def indent(elem, level=0):
+    i = "\n" + level*"  "
+    if len(elem):
+        if not elem.text or not elem.text.strip():
+            elem.text = i + "  "
+        if not elem.tail or not elem.tail.strip():
+            elem.tail = i
+        for elem in elem:
+            indent(elem, level+1)
+        if not elem.tail or not elem.tail.strip():
+            elem.tail = i
+    else:
+        if level and (not elem.tail or not elem.tail.strip()):
+            elem.tail = i
 if __name__ == "__main__":
     main(sys.argv[1:])
     
