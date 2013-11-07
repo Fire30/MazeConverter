@@ -97,16 +97,31 @@ def main(argv):
             #vertical or horizontal
             wall.set('style',style)
             length -= 1
-        if style == 'horizontal' and (y1 == 0 or y1 == default_height):
-            if x2 - x1 < default_width and x2 + 1 < default_width:
-               beeper = ET.SubElement(objects, "beeper")
-               beeper.set('x','%s' % (x2 + 1))
-               beeper.set('y','%s' % (y1))
-        elif style == 'vertical' and (x1 == 0 or x1 == default_height):
-            if y2 - y1 < default_height and y2 + 1 < height_width:
-               beeper = ET.SubElement(objects, "beeper")
-               beeper.set('x','%s' % (x1))
-               beeper.set('y','%s' % (y2 + 1))
+        #Here we are trying to find the ending point of the map
+        #Unfortunately it finds the starting point as well
+        #But that is blocked off
+        #I guess it will tell people where to start?
+        #=======================
+        #Check and see if it is on horizontal edge
+        if style == 'horizontal' and y1 in (0,default_width):
+            #If the length does not go across the whole map
+            #And the second xvalue + 1 is in the map
+            #then there must be a break in the map
+            if x2 - x1 < default_width and x2 in range(-1,default_width):
+                #We then add a beeper object with the parameters
+                #x,y,num
+                #x2 + 1 is where the break in the wall has to be
+                beeper = ET.SubElement(objects, "beeper")
+                beeper.set('x','%s' % (x2 + 1))
+                beeper.set('y','%s' % (y1))
+                beeper.set('num','1')
+            #same as above but with vertical
+        elif style == 'vertical' and x1 in (0,default_height):
+            if y2 - y1 < default_height and y2 in range(-1,default_height):
+                beeper = ET.SubElement(objects, "beeper")
+                beeper.set('x','%s' % (x1))
+                beeper.set('y','%s' % (y2 + 1))
+                beeper.set('num','1')
     #now we prettify the finished .map and write it to disc
     root = ET.ElementTree(jkarel_root).getroot()
     indent(root)
